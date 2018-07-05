@@ -420,10 +420,12 @@ struct SwaggerDocument: Encodable {
                 }
                 if let paramType = property["type"] {
                     if array {
+                        // Create an array parameter entry. Note that the min and max number of array entries should be the same (max).
                         let items = QueryParamArrayItems(type: paramType, format: property["format"])
-                        let qpa = QueryParamArray(name: name, required: required, items: items, minItems: 1, maxItems: max, collectionFormat: CollectionFormat.csv)
+                        let qpa = QueryParamArray(name: name, required: required, items: items, minItems: max, maxItems: max, collectionFormat: CollectionFormat.csv)
                         sp = SwaggerParameter.query(QueryParameter.array(qpa))
                     } else {
+                        // Create a single parameter entry
                         let qps = QueryParamSingle(name: name, required: required, type: paramType, format: property["format"])
                         sp = SwaggerParameter.query(QueryParameter.single(qps))
                     }
